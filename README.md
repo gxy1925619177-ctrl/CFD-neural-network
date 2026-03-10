@@ -22,47 +22,85 @@
 
 项目结构
 
+|--- data/                      (原始数据存放区，位于此电脑D:\\DeepCFD2025\\CNN\\data，后续可上传至云盘)
 
+|--- measure\_point/             (测点位置与索引配置)
 
-├── codes/
+|--- pod\_model/                 (训练好的模型文件)
 
-│   ├── POD\_visual.py                # 主程序：包含预测、自适应寻优及可视化输出
+|--- test\_result/               (评估报告与可视化图表)
 
-│   └── coordinate\_transform\_strict.py # 核心算法：3D-2D 坐标严格转换逻辑
+|
 
-├── models/
+|--- 标准 POD 建模分支 (Standard POD Workflow)
 
-│   └── best\_pod\_withpoint\_model.joblib # 预训练模型包（含 Scaler、基函数及 MLP 权重）
+|    |--- PODtrain.py           (基础训练程序：数据读取与超参数寻优)
 
-├── data/                            # 存放 .csv 格式的工况数据
+|    |--- PODtest.py            (基础预测程序：单工况模拟与数据匹配)
 
-└── test\_result/
+|    |--- PODtest2.py           (基础评估工具：批量工况误差统计与排序)
 
-    ├── plots/                       # 自动生成的对比图（2x3 矩阵）
+|
 
-    └── adaptive\_report.csv          # 自适应修正前后的 RMSE 统计报告
+|--- 自适应测点修正分支 (Adaptive POD-with-Point Workflow)
 
+|    |--- PODtrain\_withpoint.py (进阶训练程序：融合测点信息的模型建模)
 
+|    |--- POD\_test\_withpoint\_RL.py (自适应寻优评估：基于测点反馈的在线修正)
 
+|    |--- POD\_visual.py         (可视化系统：修正前后全场热图对比)
 
+|
 
-算法运行流程
+|--- 公共算法模块
 
+|    |--- coordinate\_transform\_strict.py (3D 到 2D 几何解析展开算法，用于可视化)
 
-
-离线阶段：对 CFD 原始数据进行正交分解，提取空间模态，并训练 MLP 网络。
-
-在线阶段：输入工况参数（如蒸汽及烟气的温度、流速），生成初始场预测。
-
-修正阶段：结合 5 个物理测点的实时数据，通过 L-BFGS-B 算法执行系数寻优。
-
-展示阶段：执行几何展开，输出自适应修正前后的全场误差对比矩阵。
-
-
+---
 
 
 
-环境配置要求
+二、 模块功能分类说明
+
+
+
+（1）标准 POD 建模分支 (Standard POD Workflow)
+
+该分支专注于基础数据驱动建模，主要服务于无实时反馈下的常规工况预测任务。
+
+
+
+\* PODtrain.py：负责读取原始数据，训练基础 POD-MLP 模型并保存。
+
+\* PODtest.py：执行单工况的推演与对比，检查模型在特定场景下的准确性。
+
+\* PODtest2.py：自动化批量处理工具，遍历数据集并计算 RMSE、MAE 等性能指标，生成性能评估报告。
+
+
+
+（2）自适应测点修正分支 (Adaptive POD-with-Point Workflow)
+
+该分支引入了基于测点反馈的在线修正机制，通过数学优化算子动态调整模型系数，从而应对模型未见过的工况波动。
+
+
+
+\* PODtrain\_withpoint.py：在建模阶段融入关键物理测点的信息，为后续修正提供索引支撑。
+
+\* POD\_test\_withpoint\_RL.py：系统的核心，模拟实时测点传感器输入，通过数学寻优算法（L-BFGS-B）在线微调 POD 系数，实现高精度闭环修正。
+
+\* POD\_visual.py：可视化展示系统，负责生成两行三列的对比矩阵，直观展示自适应策略在修正预测误差方面的效果。
+
+
+
+（3）公共算法模块
+
+
+
+\* coordinate\_transform\_strict.py：几何处理的基础函数库。将复杂管束的三维空间坐标解析映射至二维平铺平面，解决了热物理场在二维视图下的呈现问题。
+
+
+
+三、环境配置要求
 
 
 
@@ -72,11 +110,9 @@
 
 
 
-引用说明
+四、引用说明
 
 如果您在学术研究中使用了本项目的代码或方法，请引用如下信息：
 
-\[作者姓名], "基于 POD-MLP 的发电动力设备壁面热场自适应预测研究", 2026. GitHub 仓库地址: \[此处替换为您的链接]。
-
-
+\[谷雪莹], "基于 POD-MLP 的发电动力设备壁面热场自适应预测研究", 2026. GitHub 仓库地址: \[ https://github.com/gxy1925619177-ctrl/CFD-neural-network.git]。
 
