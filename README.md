@@ -16,24 +16,26 @@
 
 
 一、项目结构
-|--- data/                      (原始数据存放区)
-|--- measure_point/             (测点配置与数据分析)
-|--- pod_model/                 (训练好的模型文件)
-|--- test_result/               (评估报告与可视化图表)
+```text
+|- data/                (原始数据存放区)
+|- measure_point/       (测点配置与数据分析)
+|- pod_model/           (训练好的模型文件)
+|- test_result/         (评估报告与可视化图表)
 |
-|--- 标准 POD 建模分支 (Standard POD Workflow)
-|    |--- PODtrain.py           (基础训练程序)
-|    |--- PODtest.py            (基础预测程序)
-|    |--- PODtest2.py           (批量评估工具)
+|- 标准 POD 建模分支 (Standard POD Workflow)
+|  |--- PODtrain.py     (基础训练程序)
+|  |--- PODtest.py      (基础预测程序)
+|  |--- PODtest2.py     (批量评估工具)
 |
-|--- 自适应测点修正分支 (Adaptive POD-with-Point Workflow)
-|    |--- PODtrain_withpoint.py (进阶训练：融合测点信息)
-|    |--- POD_test_withpoint_RL.py (核心自适应寻优评估)
-|    |--- PODtest_env.py        (仿真环境与自适应评估集成工具)
-|    |--- POD_visual.py         (可视化系统)
+|- 自适应测点修正分支 (Adaptive POD-with-Point Workflow)
+|  |--- PODtrain_withpoint.py (进阶训练：融合测点信息)
+|  |--- POD_test_withpoint_RL.py (核心自适应寻优评估)
+|  |--- PODtest_env.py        (仿真环境与自适应评估集成工具)
+|  |--- POD_visual.py         (可视化系统)
 |
-|--- 公共算法模块
-|    |--- coordinate_transform_strict.py (3D 到 2D 几何解析展开)
+|- 公共算法模块
+   |--- coordinate_transform_strict.py (3D 到 2D 几何解析展开)
+```
 
 
 二、 模块功能分类说明
